@@ -1,47 +1,59 @@
 import java.util.*;
 import java.lang.*;
 import java.io.*;
-class Student {
-    private String name;
-    private int grade;
-    public Student(String name, int grade) {
-        this.name = name;
-        setGrade(grade); 
+interface Fightable {
+    void attack();
+    void defend();
+}
+class Warrior implements Fightable {
+    @Override
+    public void attack() {
+        System.out.println("Воин наносит удар мечом!");
     }
-    public String getName() {
-        return name;
+    @Override
+    public void defend() {
+        System.out.println("Воин блокирует удар");
     }
-    public void setName(String name) {
-        this.name = name;
-        if (name.length() == 0) {
-            throw new IllegalArgumentException("Ты не можешь ввести это имя");
-        }
-        this.name = name;
+}
+class Mage implements Fightable {
+    @Override
+    public void attack() {
+        System.out.println("Маг кидает огненный файербол");
     }
-    public int getGrade() {
-    return grade;
+    @Override
+    public void defend() {
+        System.out.println("Маг защетился магией");
     }
-    public void setGrade(int grade) {
-        if (grade >= 1 && grade <= 10) {
-            this.grade = grade;
-    } else {
-            System.out.println(" Ошибка: оценка должна быть от 1 до 10! Вы попытались поставить: " + grade);
-        }
     }
-    public void printInfo() {
-        System.out.println(" Студент: " + name + " | Оценка: " + grade);
+class Archer implements Fightable {
+    @Override
+    public void attack() {
+        System.out.println("Лучник выстрельнул из лука");
+    }
+    @Override
+    public void defend() {
+        System.out.println("Лучник увернулся");
     }
 }
 public class Main {
     public static void main(String[] args) {
-        Student student1 = new Student("Иван", 5);
-        student1.printInfo(); 
-        System.out.println("\n--- Пытаемся изменить оценку ---");
-        student1.setGrade(8); 
-        student1.printInfo();
-        student1.setGrade(12); 
-        student1.printInfo(); 
-        student1.setName("");
-        student1.printInfo();
+        Fightable[] fighters = new Fightable[5];
+        fighters[0] = new Warrior();
+        fighters[1] = new Mage();
+        fighters[2] = new Archer();
+        fighters[3] = new Mage();
+        fighters[4] = new Warrior();
+        System.out.println("=== Начало битвы ===");
+        for (Fightable fighter : fighters) {
+            fighter.attack();
+        }
+        System.out.println("\n=== Поиск магов для уни. Действий ===");
+        for (Fightable fighter : fighters) {
+            if (fighter instanceof Mage) {
+                System.out.println("Найден маг! Готовим уникальное заклинание...");
+                Mage foundMage = (Mage) fighter; 
+                System.out.println("Маги делают супер-дупер-мегауникальное заклинание, и все выигрывают");
+            }
+        }
     }
 }
